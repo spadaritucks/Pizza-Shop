@@ -6,6 +6,7 @@ import { MonthCanceledOrdersAmountCard } from "./month-canceled-orders-amount";
 import { RevenueChart } from "./revenue-chart";
 import { PopularProductsChart } from "./popular-products-chart";
 
+
 export function Dashboard() {
 
     return (
