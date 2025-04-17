@@ -6,7 +6,9 @@ import { Button } from "../../components/ui/button";
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner'
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { registerRestaurant } from "../../api/register-restaurant";
 
 
 const signInForm = z.object({
@@ -19,18 +21,30 @@ const signInForm = z.object({
 type SignInForm = z.infer<typeof signInForm>
 
 export function SignUp() {
+ 
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { isSubmitting } } = useForm<SignInForm>()
+
+
+
+    const { mutateAsync: registerRestaurantFn } = useMutation({
+        mutationFn: registerRestaurant
+    })
 
     async function HandleSignIn(data: SignInForm) {
 
         try {
-            console.log(data)
+            await registerRestaurantFn({
+                restaurantName: data.restaurantName,
+                managerName: data.managerName,
+                email: data.email,
+                phone: data.phone
+            })
             toast.success('Restaurante cadastrado com sucesso!', {
                 action: {
                     label: 'Login',
-                    onClick: () => { 
-                        navigate('/sign-in')
+                    onClick: () => {
+                        navigate(`/sign-in?email=${data.email}`)
                     }
                 }
             })
@@ -75,7 +89,7 @@ export function SignUp() {
                         </div>
                         <Button className="w-full" type="submit" disabled={isSubmitting}>Finalizar Cadastro</Button>
                         <p className="px-6 text-center text-sm leading-relaxed text-muted-foreground">Ao continuar, você concorda com nossos
-                             <a href="" className="underline underline-offset-4"><br /> termos de serviço </a> e  <a href="" className="underline underline-offset-4">politicas de privacidade</a>
+                            <a href="" className="underline underline-offset-4"><br /> termos de serviço </a> e  <a href="" className="underline underline-offset-4">politicas de privacidade</a>
                         </p>
                     </form>
                 </div>
