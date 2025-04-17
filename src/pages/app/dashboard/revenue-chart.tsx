@@ -7,6 +7,7 @@ import { DateRangePicker } from "../../../components/date-range-picker";
 import { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { subDays } from "date-fns";
+import { Loader2 } from "lucide-react";
 
 export function RevenueChart() {
 
@@ -50,7 +51,7 @@ export function RevenueChart() {
                 </div>
             </CardHeader>
             <CardContent>
-                {dailyRevenueInPeriod && (
+                {dailyRevenueInPeriod ? (
                     <ResponsiveContainer width="100%" height={248}>
                         <LineChart data={chartData} style={{ fontSize: 12 }}>
                             <XAxis
@@ -71,7 +72,9 @@ export function RevenueChart() {
                             <CartesianGrid vertical={false} className="stroke-muted" />
                         </LineChart>
                     </ResponsiveContainer>
-                )}
+                ) : <div className="flex h-[240px] w-full items-center justify-center">
+                <Loader2 className="h-8 w-8 text-muted-foreground" />
+            </div> }
             </CardContent>
         </Card>
     )
