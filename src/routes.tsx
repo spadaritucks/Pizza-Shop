@@ -12,7 +12,6 @@ export const router = createBrowserRouter([
     {
         path: '/',
         element: <AppLayout />,
-        errorElement: <NotFound/>,
         children: 
         [
             { path: '/', element: <Dashboard /> },
@@ -29,5 +28,9 @@ export const router = createBrowserRouter([
             ],
 
     },
+    {
+        path: '*',
+        element: <NotFound/>
+    }
 
 ])
