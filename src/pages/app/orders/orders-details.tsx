@@ -6,6 +6,7 @@ import { getOrderDetails } from "../../../api/get-order-details";
 import { formatDistanceToNow } from 'date-fns'
 import { OrderStatus } from "../../../components/order-status";
 import { ptBR } from "date-fns/locale";
+import { OrderDetailsSkeleton } from "./order-details-skeleton";
 
 export interface OrderDetailsProps {
     orderId: string
@@ -32,8 +33,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                 <DialogTitle>Pedido {order.id}</DialogTitle>
                 <DialogDescription>Detalhes do Pedido</DialogDescription>
             </DialogHeader>
-
-            <div className="space-y-6">
+            {order ? <div className="space-y-6">
                 <Table>
                     <TableBody>
                         <TableRow>
@@ -82,6 +82,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
+
                         {order.orderItems.map(item => {
                             return (
                                 <TableRow key={item.id}>
@@ -102,14 +103,15 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                     <TableFooter>
                         <TableRow>
                             <TableCell colSpan={3}>Total do Pedido</TableCell>
-                            <TableCell className="text-right font-medium">{(order.totalInCents / 100).toLocaleString('pt-BR',{
-                                style : 'currency',
-                                currency : 'BRL'
+                            <TableCell className="text-right font-medium">{(order.totalInCents / 100).toLocaleString('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL'
                             })}</TableCell>
                         </TableRow>
                     </TableFooter>
                 </Table>
-            </div>
+            </div> : <OrderDetailsSkeleton />}
+
         </DialogContent>
     )
 }
